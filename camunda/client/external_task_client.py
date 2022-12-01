@@ -65,18 +65,15 @@ class ExternalTaskClient:
     def _get_topics(self, topic_names, process_variables, variables, local_variables):
         topics = []
         for topic in str_to_list(topic_names):
-            _topic = {
+            topics.append({
                 "topicName": topic,
                 "lockDuration": self.config["lockDuration"],
                 "processVariables": process_variables if process_variables else {},
+                "variables": variables,
+                "localVariables": local_variables,
                 # enables Camunda Extension Properties
                 "includeExtensionProperties": self.config.get("includeExtensionProperties") or False
-            }
-            if variables:
-                _topic["variables"] = variables
-            if local_variables:
-                _topic["localVariables"] = local_variables
-            topics.append(_topic)
+            })
 
         return topics
 
